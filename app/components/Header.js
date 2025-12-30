@@ -1,6 +1,8 @@
+'use client'
 import Link from 'next/link';
 
 export default function Header() {
+
     const categories = [
         { name: 'Home', path: '/' },
         { name: 'Business', path: '/business' },
@@ -12,25 +14,15 @@ export default function Header() {
     ];
 
     return (
-        <header className="header">
-            <div className="container">
-                <div className="header-content">
-                    <Link href="/" className="logo">
-                        📰 NewsHub
-                    </Link>
-                    <nav className="nav">
-                        {categories.map((category) => (
-                            <Link
-                                key={category.path}
-                                href={category.path}
-                                className="nav-link"
-                            >
-                                {category.name}
-                            </Link>
-                        ))}
-                    </nav>
-                </div>
-            </div>
-        </header>
+        <div className='flex justify-between items-center bg-gray-500'>
+            <Link className='p-4 font-semibold text-2xl' href={'/'}>News App</Link>
+            <input type="text" placeholder='search news' className='border-white focus:outline-none ring-1 rounded-md px-5 h-10' />
+            <nav className='flex flex-wrap items-center gap-0'>
+                {categories.map((cat,i) => 
+                    <Link key={i} className='rounded-md px-4 py-2 hover:bg-primary-hover text-primary' href={cat.path}>{cat.name}</Link>
+                )}
+            </nav>
+
+        </div>
     );
 }
