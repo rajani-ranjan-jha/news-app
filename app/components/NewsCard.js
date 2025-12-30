@@ -22,40 +22,44 @@ export default function NewsCard({ article }) {
         });
     };
 
-    // Fallback image if no image provided
-    const imageUrl = urlToImage || '/placeholder-news.jpg';
-
     return (
-        <article className="news-card">
-            <div className="news-card-image">
+        <article className="max-w-100 flex flex-col overflow-hidden bg-white rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <div className="relative w-full h-48 overflow-hidden rounded-t-xl">
                 {urlToImage ? (
                     <img
-                        src={imageUrl}
+                    width='500'
+                    height='200'
+                        src={urlToImage}
                         alt={title}
-                        loading="lazy"
+                        fill
+                        className="object-cover transition-transform duration-500 hover:scale-105"
+                        // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                 ) : (
-                    <div className="news-card-placeholder">
+                    <div className="flex items-center justify-center w-full h-full bg-linear-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 text-5xl">
                         📰
                     </div>
                 )}
             </div>
-            <div className="news-card-content">
-                <div className="news-card-meta">
-                    <span className="news-source">{source?.name || 'Unknown'}</span>
-                    <span className="news-date">{formatDate(publishedAt)}</span>
+            <div className="flex flex-col grow p-6">
+                <div className="flex items-center justify-between mb-4 text-sm text-gray-500 dark:text-gray-400">
+                    <span className="font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide">{source?.name || 'Unknown'}</span>
+                    <span className="text-xs">{formatDate(publishedAt)}</span>
                 </div>
-                <h3 className="news-title">{title}</h3>
+                <h3 className="mb-3 text-lg font-bold leading-tight text-gray-900 dark:text-white line-clamp-2">{title}</h3>
                 {description && (
-                    <p className="news-description">{description}</p>
+                    <p className="mb-5 text-sm text-gray-600 dark:text-gray-300 line-clamp-3 leading-relaxed">{description}</p>
                 )}
                 <a
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-500 w-1/2 text-center hover:bg-blue-500/50 px-10 py-10 font-semibold rounded-md"
+                    className="inline-flex items-center justify-center px-5 py-2.5 mt-auto text-sm font-semibold text-white bg-linear-to-r from-blue-600 to-blue-700 rounded-lg shadow-md hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 hover:shadow-lg"
                 >
-                    Read More →
+                    Read More
+                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
                 </a>
             </div>
         </article>
