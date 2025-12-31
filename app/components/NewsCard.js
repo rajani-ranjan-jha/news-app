@@ -1,4 +1,6 @@
+'use client'
 import Image from 'next/image';
+import { useState } from 'react';
 
 export default function NewsCard({ article }) {
     if (!article) return null;
@@ -12,6 +14,8 @@ export default function NewsCard({ article }) {
         publishedAt
     } = article;
 
+    const [imageError, setImageError] = useState(false);
+
     // Format date
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -24,15 +28,16 @@ export default function NewsCard({ article }) {
 
     return (
         <article className="max-w-100 flex flex-col overflow-hidden bg-white rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-            <div className="relative w-full h-48 overflow-hidden rounded-t-xl">
-                {urlToImage ? (
+            <div className="w-full h-48 overflow-hidden rounded-t-xl">
+                {urlToImage && !imageError ? (
                     <img
                     width='500'
                     height='200'
                         src={urlToImage}
                         alt={title}
-                        fill
+                        fill='true'
                         className="object-cover transition-transform duration-500 hover:scale-105"
+                        onError={() => setImageError(true)}
                         // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                 ) : (
