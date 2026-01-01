@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import NewsCard from "../components/NewsCard";
 import LoadingSpinner from "../components/LoadingSpinner";
+import Footer from "../components/Footer";
 
 const CategoryList = {
   business: {
@@ -68,9 +69,9 @@ const CategoryPage = () => {
 
 
   return (
-    <div className="font-poppins min-h-screen bg-black text-white">
+    <div className="font-poppins bg-black text-white">
       <Header />
-      <main className="">
+      <main className="min-h-screen">
         <div className="h-full flex flex-col justify-center items-center">
           {hasError ? (
             <div className="mt-10 text-red-500 flex flex-col justify-center items-center gap-3 px-20">
@@ -116,6 +117,7 @@ const CategoryPage = () => {
           )}
         </div>
       </main>
+      <Footer/>
     </div>
   );
 };

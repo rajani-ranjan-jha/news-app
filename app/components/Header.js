@@ -37,7 +37,7 @@ export default function Header() {
     ];
 
     return (
-        <div className='flex justify-between items-center bg-zinc-900 px-4 py-2 relative'>
+        <div className='flex justify-between items-center bg-zinc-900 px-4 py-3 relative'>
             <Link className='font-semibold text-2xl text-white' href={'/'}>News App</Link>
             
             <input type="text" placeholder='search news' className='hidden lg:block border-white focus:outline-none ring-1 rounded-md px-5 h-10 cursor-pointer'

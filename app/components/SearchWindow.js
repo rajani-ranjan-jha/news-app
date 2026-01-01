@@ -18,7 +18,7 @@ const SearchWindow = ({ onClose }) => {
     } else {
       setSearchResult(data.articles);
     }
-    console.log(data);
+    // console.log(data);
     setIsPending(false);
   }
 
@@ -41,12 +41,12 @@ const SearchWindow = ({ onClose }) => {
           </svg>
         </button>
         <input
+          id='search'
           className="mx-auto focus:outline-none right-1 px-5 py-3 border w-full rounded-md "
           type="text"
-          onKeyDown={(e) => e.key == "Enter" && GetResult(e.target.value)}
+          onKeyDown={(e) => e.key == "Enter" && GetResult()}
           onChange={(e) => setInput(e.target.value)}
-          onSubmit={(e) => console.log(e.target.value)}
-          placeholder="search news"
+          placeholder="Search News"
           autoFocus
         />
       </div>
@@ -56,7 +56,7 @@ const SearchWindow = ({ onClose }) => {
         ) : SearchResult.length > 0 && Input.length > 0 ? (
           <>
             <h1 className="my-10 text-4xl font-semibold">
-              Search result for '{Input.trim()}'
+              Search result
             </h1>
             <div className="flex flex-wrap justify-center gap-5">
               {SearchResult.slice(0, 10).map((article, index) => (
