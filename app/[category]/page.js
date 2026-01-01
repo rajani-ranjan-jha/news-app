@@ -2,18 +2,10 @@
 import { getTopHeadlines } from "@/lib/newsApi";
 import Header from "../components/Header";
 import { useParams } from "next/navigation";
-import PageNotFound from "../components/PageNotFound";
 import { useEffect, useState } from "react";
 import NewsCard from "../components/NewsCard";
+import LoadingSpinner from "../components/LoadingSpinner";
 
-const Allowed = [
-  "business",
-  "entertainment",
-  "health",
-  "science",
-  "sports",
-  "technology",
-];
 const CategoryList = {
   business: {
     title: "Business News - NewsHub",
@@ -55,22 +47,25 @@ const CategoryPage = () => {
   const { category } = useParams();
   const [articles, setarticles] = useState([]);
   const [hasError, sethasError] = useState(false);
-  const [ErrorMessage, setErrorMessage] = useState('')
+  const [isPending, setIsPending] = useState(false);
+
+  const [ErrorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsPending(true);
       const newsData = await getTopHeadlines(category);
       if (newsData.status === "error") {
         sethasError(true);
-        setErrorMessage(newsData.message)
+        setErrorMessage(newsData.message);
       } else {
         setarticles(newsData.articles || []);
       }
+      setIsPending(false);
     };
     fetchData();
   }, [category]);
 
-  if (!Allowed.includes(category)) return <PageNotFound />;
 
   return (
     <div className="font-poppins min-h-screen bg-black text-white">
@@ -80,7 +75,9 @@ const CategoryPage = () => {
           {hasError ? (
             <div className="mt-10 text-red-500 flex flex-col justify-center items-center gap-3 px-20">
               <div className="text-center text-7xl">⚠️</div>
-              <h2 className="text-2xl font-medium text-center">Unable to Load News</h2>
+              <h2 className="text-2xl font-medium text-center">
+                Unable to Load News
+              </h2>
               <p className="text-xl text-center">{ErrorMessage}</p>
             </div>
           ) : articles.length > 0 ? (
@@ -89,7 +86,7 @@ const CategoryPage = () => {
                 <h1 className="text-4xl font-semibold capitalize text-center">
                   {category} News
                 </h1>
-                <p className="text-center">
+                <p className="text-center text-2xl">
                   {CategoryList[category].heading_p}
                 </p>
               </div>
@@ -101,14 +98,20 @@ const CategoryPage = () => {
             </>
           ) : (
             <div className="mt-10 text-red-500 flex flex-col justify-center items-center gap-3">
-              <div className="text-center text-7xl">📰</div>
-              <h2 className="text-2xl font-medium text-center">
-                No {category.charAt(0).toUpperCase() + category.slice(1)} News
-                Available
-              </h2>
-              <p className="error-message">
-                Check back later for the latest updates.
-              </p>
+              {isPending ? (
+                <LoadingSpinner />
+              ) : (
+                <>
+                  <div className="text-center text-7xl">📰</div>
+                  <h2 className="text-2xl font-medium text-center">
+                    No {category.charAt(0).toUpperCase() + category.slice(1)}{" "}
+                    News Available
+                  </h2>
+                  <p className="error-message">
+                    Check back later for the latest updates.
+                  </p>
+                </>
+              )}
             </div>
           )}
         </div>
